@@ -6,8 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-data class Players(
-    @SerializedName("data")
-    val playersList: List<Player>,
-    val meta: Meta
+data class Users(
+    @SerializedName("items")
+    val playersList: List<User>,
 ) : Parcelable

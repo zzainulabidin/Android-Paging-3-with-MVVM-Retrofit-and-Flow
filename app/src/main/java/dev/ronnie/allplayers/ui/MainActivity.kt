@@ -1,10 +1,9 @@
 package dev.ronnie.allplayers.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
@@ -14,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.ronnie.allplayers.R
-import dev.ronnie.allplayers.adapters.PlayersAdapter
 import dev.ronnie.allplayers.adapters.PlayersLoadingStateAdapter
+import dev.ronnie.allplayers.adapters.UsersAdapter
 import dev.ronnie.allplayers.databinding.ActivityMainBinding
 import dev.ronnie.allplayers.utils.RecyclerViewItemDecoration
 import dev.ronnie.allplayers.viewmodels.MainViewModel
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private val adapter =
-        PlayersAdapter { name: String -> snackBarClickedPlayer(name) }
+        UsersAdapter { name: String -> snackBarClickedPlayer(name) }
 
     private var searchJob: Job? = null
 
@@ -52,24 +51,11 @@ class MainActivity : AppCompatActivity() {
 
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            viewModel.searchPlayers()
+            viewModel.searchUsers()
                 .collectLatest {
                     adapter.submitData(it)
                 }
         }
-        /**
-         * Same thing but with Livedata
-         */
-
-//        searchJob?.cancel()
-//        searchJob = lifecycleScope.launch {
-//            viewModel.searchPlayersLiveData().observe(this@MainActivity, {
-//
-//                adapter.submitData(this@MainActivity.lifecycle, it)
-//
-//            })
-//
-//        }
     }
 
     private fun snackBarClickedPlayer(name: String) {

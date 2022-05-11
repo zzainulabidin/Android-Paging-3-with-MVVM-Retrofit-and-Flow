@@ -6,9 +6,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.ronnie.allplayers.api.PlayersApi
+import dev.ronnie.allplayers.api.UsersApi
 import dev.ronnie.allplayers.data.db.AppDataBase
-import dev.ronnie.allplayers.data.dao.PlayersDao
+import dev.ronnie.allplayers.data.dao.UsersDao
 import dev.ronnie.allplayers.data.dao.RemoteKeysDao
 import dev.ronnie.allplayers.utils.BASE_URL
 import okhttp3.OkHttpClient
@@ -41,7 +41,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesDao(appDataBase: AppDataBase): PlayersDao = appDataBase.playersDao
+    fun providesDao(appDataBase: AppDataBase): UsersDao = appDataBase.usersDao
 
     @Provides
     @Singleton
@@ -53,5 +53,5 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePlayersApi(retrofit: Retrofit): PlayersApi = retrofit.create(PlayersApi::class.java)
+    fun providePlayersApi(retrofit: Retrofit): UsersApi = retrofit.create(UsersApi::class.java)
 }

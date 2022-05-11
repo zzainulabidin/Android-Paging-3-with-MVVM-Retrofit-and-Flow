@@ -1,28 +1,28 @@
- package dev.ronnie.allplayers.data.remotediator
+package dev.ronnie.allplayers.data.remotediator
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import dev.ronnie.allplayers.api.PlayersApi
-import dev.ronnie.allplayers.data.entity.RemoteKeys
+import dev.ronnie.allplayers.api.UsersApi
 import dev.ronnie.allplayers.data.db.AppDataBase
-import dev.ronnie.allplayers.models.Player
+import dev.ronnie.allplayers.data.entity.RemoteKeys
+import dev.ronnie.allplayers.models.User
 import dev.ronnie.allplayers.utils.STARTING_PAGE_INDEX
 import retrofit2.HttpException
 import java.io.IOException
 
 
 @ExperimentalPagingApi
-class PlayersRemoteMediator(
-    private val service: PlayersApi,
+class UsersRemoteMediator(
+    private val service: UsersApi,
     private val db: AppDataBase
-) : RemoteMediator<Int, Player>() {
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, Player>): MediatorResult {
+) : RemoteMediator<Int, User>() {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, User>): MediatorResult {
         val key = when (loadType) {
             LoadType.REFRESH -> {
-                if (db.playersDao.count() > 0) return MediatorResult.Success(false)
+                if (db.usersDao.count() > 0) return MediatorResult.Success(false)
                 null
             }
             LoadType.PREPEND -> {
@@ -39,12 +39,9 @@ class PlayersRemoteMediator(
             }
 
             val page: Int = key?.nextKey ?: STARTING_PAGE_INDEX
-            val apiResponse = service.getPlayers(state.config.pageSize, page)
+            val apiResponse = service.getUsers("users", state.config.pageSize, page)
 
             val playersList = apiResponse.playersList
-
-            val endOfPaginationReached =
-                apiResponse.meta.next_page == null || apiResponse.meta.current_page == apiResponse.meta.total_pages
 
             db.withTransaction {
                 val nextKey = page + 1
@@ -53,12 +50,12 @@ class PlayersRemoteMediator(
                     RemoteKeys(
                         0,
                         nextKey = nextKey,
-                        isEndReached = endOfPaginationReached
+                        isEndReached = false
                     )
                 )
-                db.playersDao.insertMultiplePlayers(playersList)
+                db.usersDao.insertUsers(playersList)
             }
-            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+            return MediatorResult.Success(endOfPaginationReached = false)
         } catch (exception: IOException) {
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {
