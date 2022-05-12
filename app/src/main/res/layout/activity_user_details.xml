@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="user"
+            type="com.app.githubusers.models.UserDetails" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.UserDetailsActivity">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:padding="12sp"
+            android:src="@drawable/arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="112dp"
+            android:layout_height="112dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/back"
+            tools:src="@drawable/user_icon_placeholder" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/colorTextDark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@{user.name}"
+            app:layout_constraintEnd_toEndOf="@+id/profile_image"
+            app:layout_constraintStart_toStartOf="@+id/profile_image"
+            app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{user.location}"
+            android:textColor="@color/colorTextLight"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/profile_image"
+            app:layout_constraintStart_toStartOf="@+id/profile_image"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            tools:text="address" />
+
+
+        <TextView
+            android:id="@+id/tag_followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/tag_followers"
+            android:textColor="@color/colorTextLight"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/followers"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/followers"
+            app:layout_constraintTop_toBottomOf="@+id/followers" />
+
+        <TextView
+            android:id="@+id/followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextDark"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="@{user.followers}"
+            app:layout_constraintBottom_toBottomOf="@+id/following"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/following"
+            app:layout_constraintTop_toTopOf="@+id/following" />
+
+        <TextView
+            android:id="@+id/tag_following"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/tag_following"
+            android:textColor="@color/colorTextLight"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/following"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/following"
+            app:layout_constraintTop_toBottomOf="@+id/following" />
+
+        <TextView
+            android:id="@+id/following"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorTextDark"
+            android:textSize="15sp"
+            android:text="@{user.following}"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/followers"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/organization"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
+
+        <TextView
+            android:id="@+id/tag_organization"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/tag_organization"
+            android:textColor="@color/colorTextLight"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/organization"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/organization"
+            app:layout_constraintTop_toBottomOf="@+id/organization" />
+
+        <TextView
+            android:id="@+id/organization"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextDark"
+            android:textSize="15sp"
+            android:maxLength="15"
+            android:text="@{user.organisation}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/following"
+            app:layout_constraintEnd_toEndOf="@+id/tag_organization"
+            app:layout_constraintEnd_toStartOf="@+id/following"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/following" />
+
+
+        <View
+            android:id="@+id/item_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/cardview_dark_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tag_organization" />
+
+
+        <TextView
+            android:id="@+id/tag_bio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/tag_about"
+            android:textColor="@color/colorTextDark"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_divider" />
+
+        <TextView
+            android:id="@+id/bio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="start"
+            android:text="@{user.bio}"
+            android:ellipsize="end"
+            android:maxLines="12"
+            android:textColor="@color/colorTextDark"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tag_bio" />
+
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

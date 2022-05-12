@@ -10,7 +10,7 @@ import com.app.githubusers.databinding.AdapterUserItemBinding
 import com.app.githubusers.models.User
 import com.bumptech.glide.Glide
 
-class UsersAdapter(private val clicked: (User) -> Unit) :
+class UsersAdapter(private val clicked: (String) -> Unit) :
     PagingDataAdapter<User, UsersAdapter.UsersViewHolder>(
         UsersDiffCallback()
     ) {
@@ -45,7 +45,7 @@ class UsersAdapter(private val clicked: (User) -> Unit) :
                 }
 
                 binding.root.setOnClickListener {
-                    data?.let { it1 -> clicked.invoke(it1) }
+                    data?.let { it1 -> clicked.invoke(it1.login) }
                 }
             }
 

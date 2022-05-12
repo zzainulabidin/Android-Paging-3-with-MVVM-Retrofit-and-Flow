@@ -9,6 +9,7 @@ import com.app.githubusers.api.UsersApi
 import com.app.githubusers.data.db.AppDataBase
 import com.app.githubusers.data.entity.RemoteKeys
 import com.app.githubusers.models.User
+import com.app.githubusers.utils.QUERY_USER
 import com.app.githubusers.utils.STARTING_PAGE_INDEX
 import retrofit2.HttpException
 import java.io.IOException
@@ -39,7 +40,7 @@ class UsersRemoteMediator(
             }
 
             val page: Int = key?.nextKey ?: STARTING_PAGE_INDEX
-            val apiResponse = service.getUsers("users", state.config.pageSize, page)
+            val apiResponse = service.getUsers(QUERY_USER, state.config.pageSize, page)
 
             val usersList = apiResponse.usersList
 

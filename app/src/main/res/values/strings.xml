@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Github Users</string>
     <string name="retry">Retry</string>
+    <string name="network_not_available">Network not available. Please try again</string>
+    <string name="error_fetching_user_details">Failed to fetch user details. Please try again later</string>
+
+    <string name="tag_organization">Organization</string>
+    <string name="tag_following">Following</string>
+    <string name="tag_followers">Followers</string>
+    <string name="tag_about">ABOUT</string>
 </resources>

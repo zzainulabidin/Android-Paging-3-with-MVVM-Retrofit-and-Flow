@@ -19,7 +19,6 @@ abstract class AppDataBase : RoomDatabase() {
     abstract val usersDao: UsersDao
     abstract val remoteKeysDao: RemoteKeysDao
 
-    //Room should only be initiated once, marked volatile to be thread safe.
     companion object {
         @Volatile
         private var instance: AppDataBase? = null

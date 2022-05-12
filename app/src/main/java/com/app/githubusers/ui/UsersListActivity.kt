@@ -1,5 +1,6 @@
 package com.app.githubusers.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.githubusers.R
 import com.app.githubusers.adapters.UsersAdapter
 import com.app.githubusers.adapters.UsersLoadingStateAdapter
-import com.app.githubusers.databinding.ActivityMainBinding
-import com.app.githubusers.models.User
+import com.app.githubusers.databinding.ActivityUsersListBinding
+import com.app.githubusers.utils.INTENT_USER_LOGIN
 import com.app.githubusers.utils.RecyclerViewItemDecoration
 import com.app.githubusers.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,33 +22,31 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class UsersListActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityUsersListBinding
     private val adapter =
-        UsersAdapter { user: User -> handleItemClick(user) }
+        UsersAdapter { login: String -> handleItemClick(login) }
 
     private var searchJob: Job? = null
 
     @ExperimentalPagingApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_users_list)
 
         setUpAdapter()
         startSearchJob()
         binding.swipeRefreshLayout.setOnRefreshListener {
-
             adapter.refresh()
-
         }
 
     }
 
     @ExperimentalPagingApi
     private fun startSearchJob() {
-
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             viewModel.searchUsers()
@@ -57,14 +56,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleItemClick(name: User) {
-        
+    private fun handleItemClick(login: String) {
+        val myIntent = Intent(this@UsersListActivity, UserDetailsActivity::class.java)
+        myIntent.putExtra(INTENT_USER_LOGIN, login)
+        this@UsersListActivity.startActivity(myIntent)
     }
 
     private fun setUpAdapter() {
 
         binding.allProductRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager = LinearLayoutManager(this@UsersListActivity)
             setHasFixedSize(true)
             addItemDecoration(RecyclerViewItemDecoration())
         }
@@ -108,6 +109,5 @@ class MainActivity : AppCompatActivity() {
     private fun retry() {
         adapter.retry()
     }
-
 
 }
