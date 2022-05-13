@@ -22,7 +22,6 @@ class UserApiDataTest {
 
     private val dispatcher = UnconfinedTestDispatcher()
     private val usersApi: UsersApi = mock()
-//    private val appDataBase: AppDataBase = mock()
 
     @Before
     fun setUp() {

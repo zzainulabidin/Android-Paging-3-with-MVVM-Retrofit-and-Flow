@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.paging.PagingSource
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.app.githubusers.data.dao.UsersDao
 import com.app.githubusers.data.db.AppDataBase
 import com.app.githubusers.models.User
@@ -14,9 +15,11 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.io.IOException
 
 @ExperimentalCoroutinesApi
+@RunWith(AndroidJUnit4::class)
 class RoomDBTest: TestCase() {
 
     private lateinit var usersDao: UsersDao
