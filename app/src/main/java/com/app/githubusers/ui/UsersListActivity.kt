@@ -49,7 +49,7 @@ class UsersListActivity : AppCompatActivity() {
     private fun startSearchJob() {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            viewModel.searchUsers()
+            viewModel.fetchUsers()
                 .collectLatest {
                     adapter.submitData(it)
                 }

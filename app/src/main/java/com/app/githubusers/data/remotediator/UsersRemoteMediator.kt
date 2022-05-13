@@ -21,6 +21,8 @@ class UsersRemoteMediator(
     private val db: AppDataBase
 ) : RemoteMediator<Int, User>() {
     override suspend fun load(loadType: LoadType, state: PagingState<Int, User>): MediatorResult {
+        //
+        //
         val key = when (loadType) {
             LoadType.REFRESH -> {
                 if (db.usersDao.count() > 0) return MediatorResult.Success(false)
@@ -30,15 +32,12 @@ class UsersRemoteMediator(
                 return MediatorResult.Success(endOfPaginationReached = true)
             }
             LoadType.APPEND -> {
-                getKey()
+                val key  = getKey()
+                key
             }
         }
 
         try {
-            if (key != null) {
-                if (key.isEndReached) return MediatorResult.Success(endOfPaginationReached = true)
-            }
-
             val page: Int = key?.nextKey ?: STARTING_PAGE_INDEX
             val apiResponse = service.getUsers(QUERY_USER, state.config.pageSize, page)
 
@@ -50,8 +49,7 @@ class UsersRemoteMediator(
                 db.remoteKeysDao.insertKey(
                     RemoteKeys(
                         0,
-                        nextKey = nextKey,
-                        isEndReached = false
+                        nextKey
                     )
                 )
                 db.usersDao.insertUsers(usersList)
@@ -67,6 +65,5 @@ class UsersRemoteMediator(
     private suspend fun getKey(): RemoteKeys? {
         return db.remoteKeysDao.getKeys().firstOrNull()
     }
-
 
 }

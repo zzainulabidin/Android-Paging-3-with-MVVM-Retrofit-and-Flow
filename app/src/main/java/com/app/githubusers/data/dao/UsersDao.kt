@@ -15,7 +15,7 @@ interface UsersDao {
     @Query("SELECT * FROM users_table")
     fun getUsers(): PagingSource<Int, User>
 
-    @Query("SELECT COUNT(id) from users_table")
+    @Query("SELECT COUNT(userId) from users_table")
     suspend fun count(): Int
 
 }

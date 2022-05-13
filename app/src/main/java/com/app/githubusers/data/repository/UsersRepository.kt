@@ -1,9 +1,6 @@
 package com.app.githubusers.data.repository
 
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import com.app.githubusers.api.SearchResult
 import com.app.githubusers.api.UsersApi
 import com.app.githubusers.data.db.AppDataBase
@@ -22,8 +19,6 @@ class UsersRepository @Inject constructor(
     private val db: AppDataBase
 ) {
 
-    private val pagingSourceFactory = { db.usersDao.getUsers() }
-
     @ExperimentalPagingApi
     fun getUsers(): Flow<PagingData<User>> {
         return Pager(
@@ -35,8 +30,12 @@ class UsersRepository @Inject constructor(
                 usersApi,
                 db
             ),
-            pagingSourceFactory = pagingSourceFactory
+            pagingSourceFactory = { pagingSourceFactory() }
         ).flow
+    }
+
+    private fun pagingSourceFactory(): PagingSource<Int, User> {
+        return db.usersDao.getUsers()
     }
 
     suspend fun getUserDetails(login: String): SearchResult<UserDetails> =

@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
     private var currentResult: Flow<PagingData<User>>? = null
 
     @ExperimentalPagingApi
-    fun searchUsers(): Flow<PagingData<User>> {
+    fun fetchUsers(): Flow<PagingData<User>> {
         val newResult: Flow<PagingData<User>> =
             repository.getUsers().cachedIn(viewModelScope)
         currentResult = newResult
@@ -31,4 +31,5 @@ class MainViewModel @Inject constructor(
     suspend fun getUserDetails(login: String): SearchResult<UserDetails> {
         return repository.getUserDetails(login)
     }
+
 }

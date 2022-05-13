@@ -54,7 +54,7 @@ class UsersAdapter(private val clicked: (String) -> Unit) :
 
     private class UsersDiffCallback : DiffUtil.ItemCallback<User>() {
         override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.userId == newItem.userId
         }
 
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {

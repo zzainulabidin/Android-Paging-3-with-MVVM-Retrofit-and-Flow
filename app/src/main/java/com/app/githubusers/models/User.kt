@@ -10,8 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "users_table")
 data class User(
     @PrimaryKey(autoGenerate = true)
-    val itemId: Int,
-    val id: Int,
+    val userId: Int,
     val login: String,
     @SerializedName("avatar_url")
     val avatarUrl: String,
